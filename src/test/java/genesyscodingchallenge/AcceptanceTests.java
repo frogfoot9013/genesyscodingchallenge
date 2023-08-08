@@ -27,7 +27,7 @@ class AcceptanceTests {
 	@Test
 	public void AcceptanceTesting() throws MalformedURLException {
 		ChromeOptions options = new ChromeOptions();
-		WebDriver driver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), options);
+		WebDriver driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
 		driver.manage().window().setSize(new Dimension(1280, 900));
 		driver.get("https://www.ryanair.com");
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
@@ -38,6 +38,7 @@ class AcceptanceTests {
 		// get title of webpage, verify page has loaded by presence of this title
 		String title = driver.getTitle();
 		assertEquals("Official Ryanair website | Cheap flights from Ireland | Ryanair", title);
+		System.out.println("Main page loaded.");
 		
 		// click through GDPR prompt
 		WebElement gdprButton = driver.findElement(By.className("cookie-popup-with-overlay__button"));
@@ -192,6 +193,7 @@ class AcceptanceTests {
 		WebElement searchButton = driver.findElement(By.cssSelector(".flight-search-widget__start-search.ng-tns-c2080360900-3.ry-button--gradient-yellow"));
 		assertTrue(searchButton != null);
 		searchButton.click();
+		System.out.println("Searching for flights.");
 		
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
 
@@ -210,6 +212,7 @@ class AcceptanceTests {
 		String selectButtonOutText = selectButtonOut.getText();
 		assertEquals(selectButtonOutText, "Select");
 		selectButtonOut.click();
+		System.out.println("Outbound flight selected.");
 		
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
 
@@ -227,6 +230,7 @@ class AcceptanceTests {
 		String selectButtonInText = selectButtonIn.getText();
 		assertEquals(selectButtonInText, "Select");
 		selectButtonIn.click();
+		System.out.println("Inbound Flight selected");
 
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
 
@@ -270,6 +274,8 @@ class AcceptanceTests {
 				
 			}
 		}
+
+		System.out.println("Fare selected");
 		
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
 
@@ -283,6 +289,7 @@ class AcceptanceTests {
 		String loginPanelClass = loginPanel.getAttribute("class");
 		assertEquals(loginPanelClass, "expanded");
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
+		System.out.println("Login panel selected");
 
 
 		
@@ -291,6 +298,7 @@ class AcceptanceTests {
 		String passengerPanelClass = passengerPanel.getAttribute("class");
 		assertEquals(passengerPanelClass, "form-wrapper form-wrapper--disabled");
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(6000));
+		System.out.println("Passengers panel is greyed out");
 
 		
 		// log in later, passengers panel should no longer be greyed out
@@ -327,6 +335,8 @@ class AcceptanceTests {
 		WebElement p2 = passengerContainers.get(1);
 		passengerDetails(p2, 1, "Joe", "Smith", driver);
 		p2.click();
+
+		System.out.println("Passenger details entered");
 		
 		WebElement continueFlex = driver.findElement(By.className("continue-flow"));
 		
@@ -371,6 +381,7 @@ class AcceptanceTests {
 		WebElement seat2 = seats.get(1).findElement(By.tagName("div"));
 		String seat2Val = seat2.getText();
 		assertEquals(seat2Val, "19C");
+		System.out.println("Outbound flight seats selected.");
 		
 		WebElement nextButton = driver.findElement(By.className("passenger-carousel__button-next"));
 		assertTrue(nextButton != null);
@@ -385,12 +396,10 @@ class AcceptanceTests {
 
 		WebDriverWait waitButton = new WebDriverWait(driver, Duration.ofSeconds(10));
 		waitButton.until(ExpectedConditions.not(ExpectedConditions.textToBe(By.className("passenger-carousel__button-next"), oldText)));
-		String buttonNewText = nextButton.getText();
-		System.out.println(buttonNewText);
 		
 		// seats
 		WebElement seat1Return = wait.until(WebDriver -> { 
-				return driver.findElement(By.id("seat-27B"));
+				return driver.findElement(By.id("seat-21B"));
 		});
 		assertTrue(seat1Return != null);
 		WebDriverWait waitSeat1Return = new WebDriverWait(driver, Duration.ofMillis(9000));
@@ -398,7 +407,7 @@ class AcceptanceTests {
 		seat1Return.click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
 		WebElement seat2Return = wait.until(WebDriver -> {
-			return driver.findElement(By.id("seat-27C"));
+			return driver.findElement(By.id("seat-21C"));
 		});
 		assertTrue(seat2Return != null);
 		WebDriverWait waitSeat2Return = new WebDriverWait(driver, Duration.ofMillis(9000));
@@ -409,11 +418,12 @@ class AcceptanceTests {
 		List<WebElement> seatsReturn = driver.findElements(By.cssSelector(".seat__seat.body-l-lg.seat__seat--occupied"));
 		WebElement seat3 = seatsReturn.get(1).findElement(By.tagName("div"));
 		String seat3Val = seat3.getText();
-		assertEquals(seat3Val, "27B");
+		assertEquals(seat3Val, "21B");
 		
 		WebElement seat4 = seatsReturn.get(3).findElement(By.tagName("div"));
 		String seat4Val = seat4.getText();
-		assertEquals(seat4Val, "27C");
+		assertEquals(seat4Val, "21C");
+		System.out.println("Inbound flight seats selected.");
 		
 		nextButton.click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
@@ -424,6 +434,8 @@ class AcceptanceTests {
 		
 		WebElement checkinBagsLoaded = driver.findElement(By.cssSelector("[data-ref='check-in-bags']"));
 		assertTrue(checkinBagsLoaded != null);
+
+		System.out.println("Check-in page loaded");
 		
 		driver.quit();
 
