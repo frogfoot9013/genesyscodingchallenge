@@ -1,6 +1,6 @@
 # Readme for coding challenge.
 
-Note: Dockerfile is not working as intended - time constraints brought about by unforeseen events precluded me getting it to work, and as it stands, it runs into a SessionNotCreatedException when starting chrome and chromedriver in the docker container, when the container is run.
+Note: Dockerfile is now working in this version, using docker-compose.
 
 ## Information:
 This project was built using Eclipse, on Manjaro Linux.
@@ -9,8 +9,11 @@ Versions used:
 - Chromedriver 115.0.5790.110 (though quite likely other versions will work)
 - Maven 3.8.7
 
-## How to Run
+## How to Run Docker Image
 ```console
-mvn clean
-mvn test
+docker-compose build
+docker-compose up --abort-on-container-exit --exit-code-from acceptance_test 
 ```
+
+## Note:
+If running the test repeatedly in quick succession, the seats booked from the first instance will remain taken on Ryanair's side for a number of minutes before being freed up again. If one does not wait a few minutes between running, this will result in it failing on the second running when it tries to book these seats again.

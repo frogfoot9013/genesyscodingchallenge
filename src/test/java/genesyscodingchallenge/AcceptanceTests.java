@@ -17,7 +17,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.TimeoutException;
@@ -343,12 +342,20 @@ class AcceptanceTests {
 		assertTrue(seatMap != null);
 		
 		// Seats 
-		WebElement seat1Depart = driver.findElement(By.id("seat-19B"));
+		WebElement seat1Depart = wait.until(WebDriver -> {
+			return driver.findElement(By.id("seat-19B"));
+		});
 		assertTrue(seat1Depart != null);
+		WebDriverWait waitSeat1Depart = new WebDriverWait(driver, Duration.ofMillis(9000));
+		waitSeat1Depart.until(ExpectedConditions.elementToBeClickable(seat1Depart));
 		seat1Depart.click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
-		WebElement seat2Depart = driver.findElement(By.id("seat-19C"));
+		WebElement seat2Depart = wait.until(WebDriver -> {
+			return driver.findElement(By.id("seat-19C"));
+		});
 		assertTrue(seat2Depart != null);
+		WebDriverWait waitSeat2Depart = new WebDriverWait(driver, Duration.ofMillis(9000));
+		waitSeat2Depart.until(ExpectedConditions.elementToBeClickable(seat2Depart));
 		seat2Depart.click();
 		
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
@@ -386,10 +393,16 @@ class AcceptanceTests {
 				return driver.findElement(By.id("seat-27B"));
 		});
 		assertTrue(seat1Return != null);
+		WebDriverWait waitSeat1Return = new WebDriverWait(driver, Duration.ofMillis(9000));
+		waitSeat1Return.until(ExpectedConditions.elementToBeClickable(seat1Return));
 		seat1Return.click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
-		WebElement seat2Return = driver.findElement(By.id("seat-27C"));
+		WebElement seat2Return = wait.until(WebDriver -> {
+			return driver.findElement(By.id("seat-27C"));
+		});
 		assertTrue(seat2Return != null);
+		WebDriverWait waitSeat2Return = new WebDriverWait(driver, Duration.ofMillis(9000));
+		waitSeat2Return.until(ExpectedConditions.elementToBeClickable(seat2Return));
 		seat2Return.click();
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(9000));
 
