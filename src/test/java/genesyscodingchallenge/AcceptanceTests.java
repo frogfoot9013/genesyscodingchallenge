@@ -3,6 +3,8 @@ package genesyscodingchallenge;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,16 +19,16 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.chrome.ChromeDriver;
+
 
 class AcceptanceTests {
 
 	@Test
-	public void AcceptanceTesting() {
-		System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-		//WebDriverManager.chromedriver().setup();
-		WebDriver driver = new ChromeDriver();
+	public void AcceptanceTesting() throws MalformedURLException {
+		ChromeOptions options = new ChromeOptions();
+		WebDriver driver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), options);
 		driver.manage().window().setSize(new Dimension(1280, 900));
 		driver.get("https://www.ryanair.com");
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)

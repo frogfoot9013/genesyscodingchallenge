@@ -1,0 +1,22 @@
+version: '3'
+services:
+    selenium-hub:
+        image: selenium/hub:latest
+        ports:
+        - "4444:4444"
+    selenium-chrome:
+        image: selenium/node-chrome:latest
+        depends_on:
+            - selenium-hub
+        environment:
+            HUB_HOST: selenium-hub
+            HUB_PORT: 4444
+        shm_size: 2g
+    acceptance_test:
+        build: .
+        depends_on:
+        - selenium-chrome
+        environment:
+            SELENIUM_HUB_HOST: selenium-hub
+            SELENIUM_HUB_PORT: 4444
+
